@@ -1,0 +1,22 @@
+From: Shengjing Zhu <zhsj@debian.org>
+Date: Tue, 1 Mar 2022 21:38:59 +0800
+Subject: Add Debian specific CNI bin dir to ctr run command
+
+Forwarded: not-needed
+---
+ cmd/ctr/commands/run/run.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+Index: containerd/cmd/ctr/commands/run/run.go
+===================================================================
+--- containerd.orig/cmd/ctr/commands/run/run.go
++++ containerd/cmd/ctr/commands/run/run.go
+@@ -185,7 +185,7 @@ var Command = cli.Command{
+ 		}
+ 		var network gocni.CNI
+ 		if enableCNI {
+-			if network, err = gocni.New(gocni.WithDefaultConf); err != nil {
++			if network, err = gocni.New(gocni.WithPluginDir([]string{gocni.DefaultCNIDir, "/usr/lib/cni"}), gocni.WithDefaultConf); err != nil {
+ 				return err
+ 			}
+ 		}

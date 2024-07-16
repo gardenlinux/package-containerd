@@ -1,0 +1,8 @@
+0001-disable-windows-support-in-ctr-metric.patch
+0002-disable-runhcs-option-in-cri-config.patch
+0003-Remove-depends-on-google.golang.org-protobuf-proto.patch
+0004-Disable-otelgrpc-telemetry.patch
+0005-Revert-Use-insecure.NewCredentials-instead-of-grpc.W.patch
+0006-Fix-build-with-gccgo.patch
+0008-Add-Debian-specific-CNI-bin-dir-to-ctr-run-command.patch
+0011-allow-test-run-in-userns.patch

@@ -1,1 +1,12 @@
-apt_src containerd
+git_src --branch v1.6.33 https://github.com/containerd/containerd
+
+rm -rf "$dir/src/vendor"
+
+tar -f "$dir/orig.tar" --delete _/vendor
+
+apt_src --ignore-orig containerd
+
+cp -r patches/* "$dir/src/debian/patches"
+
+version="1.6.33-0"
+message="Update to 1.6.33-0"

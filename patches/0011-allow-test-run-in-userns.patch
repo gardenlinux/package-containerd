@@ -1,0 +1,29 @@
+From: Reinhard Tartler
+Description: Allow running tests with unshare(1)
+Last-Updated: 2024-06-11
+Bug-Debian: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1070411
+Forwarded: https://github.com/containerd/containerd/pull/10323
+
+Index: containerd/pkg/cri/server/sandbox_run_linux_test.go
+===================================================================
+--- containerd.orig/pkg/cri/server/sandbox_run_linux_test.go
++++ containerd/pkg/cri/server/sandbox_run_linux_test.go
+@@ -33,6 +33,7 @@ import (
+ 	"github.com/containerd/containerd/pkg/cri/annotations"
+ 	"github.com/containerd/containerd/pkg/cri/opts"
+ 	ostesting "github.com/containerd/containerd/pkg/os/testing"
++	"github.com/containerd/containerd/pkg/userns"
+ )
+ 
+ func getRunPodSandboxTestData() (*runtime.PodSandboxConfig, *imagespec.ImageConfig, func(*testing.T, string, *runtimespec.Spec)) {
+@@ -121,7 +122,9 @@ func TestLinuxSandboxContainerSpec(t *te
+ 					Type: runtimespec.IPCNamespace,
+ 				})
+ 				assert.Contains(t, spec.Linux.Sysctl["net.ipv4.ip_unprivileged_port_start"], "0")
+-				assert.Contains(t, spec.Linux.Sysctl["net.ipv4.ping_group_range"], "0 2147483647")
++				if !userns.RunningInUserNS() {
++					assert.Contains(t, spec.Linux.Sysctl["net.ipv4.ping_group_range"], "0 2147483647")
++				}
+ 			},
+ 		},
+ 		"host namespace": {

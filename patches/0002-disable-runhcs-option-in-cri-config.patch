@@ -1,0 +1,30 @@
+From: Shengjing Zhu <zhsj@debian.org>
+Date: Sat, 23 Jan 2021 00:42:41 +0800
+Subject: disable runhcs option in cri config
+
+Forwarded: not-needed
+---
+ pkg/cri/server/helpers.go | 3 ---
+ 1 file changed, 3 deletions(-)
+
+Index: containerd/pkg/cri/server/helpers.go
+===================================================================
+--- containerd.orig/pkg/cri/server/helpers.go
++++ containerd/pkg/cri/server/helpers.go
+@@ -40,7 +40,6 @@ import (
+ 	runtimespec "github.com/opencontainers/runtime-spec/specs-go"
+ 	"github.com/sirupsen/logrus"
+ 
+-	runhcsoptions "github.com/Microsoft/hcsshim/cmd/containerd-shim-runhcs-v1/options"
+ 	imagedigest "github.com/opencontainers/go-digest"
+ 	"github.com/pelletier/go-toml"
+ 	"golang.org/x/net/context"
+@@ -362,8 +361,6 @@ func getRuntimeOptionsType(t string) int
+ 		return &runcoptions.Options{}
+ 	case plugin.RuntimeLinuxV1:
+ 		return &runctypes.RuncOptions{}
+-	case runtimeRunhcsV1:
+-		return &runhcsoptions.Options{}
+ 	default:
+ 		return &runtimeoptions.Options{}
+ 	}

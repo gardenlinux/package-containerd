@@ -1,0 +1,56 @@
+From: Shengjing Zhu <zhsj@debian.org>
+Date: Mon, 21 Feb 2022 00:53:36 +0800
+Subject: Disable opentelemetry
+
+go.opentelemetry.io/contrib is not packaged.
+
+Forwarded: not-needed
+---
+ cmd/containerd/builtins.go |  1 -
+ services/server/server.go  | 14 ++------------
+ 2 files changed, 2 insertions(+), 13 deletions(-)
+
+Index: containerd/cmd/containerd/builtins.go
+===================================================================
+--- containerd.orig/cmd/containerd/builtins.go
++++ containerd/cmd/containerd/builtins.go
+@@ -36,5 +36,4 @@ import (
+ 	_ "github.com/containerd/containerd/services/snapshots"
+ 	_ "github.com/containerd/containerd/services/tasks"
+ 	_ "github.com/containerd/containerd/services/version"
+-	_ "github.com/containerd/containerd/tracing/plugin"
+ )
+Index: containerd/services/server/server.go
+===================================================================
+--- containerd.orig/services/server/server.go
++++ containerd/services/server/server.go
+@@ -53,10 +53,8 @@ import (
+ 	"github.com/containerd/containerd/sys"
+ 	"github.com/containerd/ttrpc"
+ 	metrics "github.com/docker/go-metrics"
+-	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
+ 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
+ 	bolt "go.etcd.io/bbolt"
+-	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
+ 	"google.golang.org/grpc"
+ 	"google.golang.org/grpc/backoff"
+ 	"google.golang.org/grpc/credentials"
+@@ -131,16 +129,8 @@ func New(ctx context.Context, config *sr
+ 	}
+ 
+ 	serverOpts := []grpc.ServerOption{
+-		grpc.StreamInterceptor(grpc_middleware.ChainStreamServer(
+-			otelgrpc.StreamServerInterceptor(),
+-			grpc.StreamServerInterceptor(grpc_prometheus.StreamServerInterceptor),
+-			streamNamespaceInterceptor,
+-		)),
+-		grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
+-			otelgrpc.UnaryServerInterceptor(),
+-			grpc.UnaryServerInterceptor(grpc_prometheus.UnaryServerInterceptor),
+-			unaryNamespaceInterceptor,
+-		)),
++		grpc.UnaryInterceptor(grpc_prometheus.UnaryServerInterceptor),
++		grpc.StreamInterceptor(grpc_prometheus.StreamServerInterceptor),
+ 	}
+ 	if config.GRPC.MaxRecvMsgSize > 0 {
+ 		serverOpts = append(serverOpts, grpc.MaxRecvMsgSize(config.GRPC.MaxRecvMsgSize))

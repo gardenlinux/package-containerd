@@ -1,0 +1,159 @@
+From: Shengjing Zhu <zhsj@debian.org>
+Date: Fri, 16 Dec 2022 02:34:18 +0800
+Subject: Remove depends on google.golang.org/protobuf/proto
+
+Forwarded: not-needed
+---
+ .../container_update_resources_linux_test.go       | 61 +++++++++++-----------
+ 1 file changed, 31 insertions(+), 30 deletions(-)
+
+Index: containerd/pkg/cri/server/container_update_resources_linux_test.go
+===================================================================
+--- containerd.orig/pkg/cri/server/container_update_resources_linux_test.go
++++ containerd/pkg/cri/server/container_update_resources_linux_test.go
+@@ -22,7 +22,6 @@ import (
+ 
+ 	runtimespec "github.com/opencontainers/runtime-spec/specs-go"
+ 	"github.com/stretchr/testify/assert"
+-	"google.golang.org/protobuf/proto"
+ 	runtime "k8s.io/cri-api/pkg/apis/runtime/v1"
+ 
+ 	criconfig "github.com/containerd/containerd/pkg/cri/config"
+@@ -30,6 +29,8 @@ import (
+ )
+ 
+ func TestUpdateOCILinuxResource(t *testing.T) {
++	newI64 := func(i int64) *int64 { return &i }
++	newU64 := func(i uint64) *uint64 { return &i }
+ 	oomscoreadj := new(int)
+ 	*oomscoreadj = -500
+ 	expectedSwap := func(swap int64) *int64 {
+@@ -49,11 +50,11 @@ func TestUpdateOCILinuxResource(t *testi
+ 				Process: &runtimespec.Process{OOMScoreAdj: oomscoreadj},
+ 				Linux: &runtimespec.Linux{
+ 					Resources: &runtimespec.LinuxResources{
+-						Memory: &runtimespec.LinuxMemory{Limit: proto.Int64(12345)},
++						Memory: &runtimespec.LinuxMemory{Limit: newI64(12345)},
+ 						CPU: &runtimespec.LinuxCPU{
+-							Shares: proto.Uint64(1111),
+-							Quota:  proto.Int64(2222),
+-							Period: proto.Uint64(3333),
++							Shares: newU64(1111),
++							Quota:  newI64(2222),
++							Period: newU64(3333),
+ 							Cpus:   "0-1",
+ 							Mems:   "2-3",
+ 						},
+@@ -78,13 +79,13 @@ func TestUpdateOCILinuxResource(t *testi
+ 				Linux: &runtimespec.Linux{
+ 					Resources: &runtimespec.LinuxResources{
+ 						Memory: &runtimespec.LinuxMemory{
+-							Limit: proto.Int64(54321),
++							Limit: newI64(54321),
+ 							Swap:  expectedSwap(54321),
+ 						},
+ 						CPU: &runtimespec.LinuxCPU{
+-							Shares: proto.Uint64(4444),
+-							Quota:  proto.Int64(5555),
+-							Period: proto.Uint64(6666),
++							Shares: newU64(4444),
++							Quota:  newI64(5555),
++							Period: newU64(6666),
+ 							Cpus:   "4-5",
+ 							Mems:   "6-7",
+ 						},
+@@ -98,11 +99,11 @@ func TestUpdateOCILinuxResource(t *testi
+ 				Process: &runtimespec.Process{OOMScoreAdj: oomscoreadj},
+ 				Linux: &runtimespec.Linux{
+ 					Resources: &runtimespec.LinuxResources{
+-						Memory: &runtimespec.LinuxMemory{Limit: proto.Int64(12345)},
++						Memory: &runtimespec.LinuxMemory{Limit: newI64(12345)},
+ 						CPU: &runtimespec.LinuxCPU{
+-							Shares: proto.Uint64(1111),
+-							Quota:  proto.Int64(2222),
+-							Period: proto.Uint64(3333),
++							Shares: newU64(1111),
++							Quota:  newI64(2222),
++							Period: newU64(3333),
+ 							Cpus:   "0-1",
+ 							Mems:   "2-3",
+ 						},
+@@ -124,13 +125,13 @@ func TestUpdateOCILinuxResource(t *testi
+ 				Linux: &runtimespec.Linux{
+ 					Resources: &runtimespec.LinuxResources{
+ 						Memory: &runtimespec.LinuxMemory{
+-							Limit: proto.Int64(54321),
++							Limit: newI64(54321),
+ 							Swap:  expectedSwap(54321),
+ 						},
+ 						CPU: &runtimespec.LinuxCPU{
+-							Shares: proto.Uint64(4444),
+-							Quota:  proto.Int64(5555),
+-							Period: proto.Uint64(3333),
++							Shares: newU64(4444),
++							Quota:  newI64(5555),
++							Period: newU64(3333),
+ 							Cpus:   "0-1",
+ 							Mems:   "6-7",
+ 						},
+@@ -144,7 +145,7 @@ func TestUpdateOCILinuxResource(t *testi
+ 				Process: &runtimespec.Process{OOMScoreAdj: oomscoreadj},
+ 				Linux: &runtimespec.Linux{
+ 					Resources: &runtimespec.LinuxResources{
+-						Memory: &runtimespec.LinuxMemory{Limit: proto.Int64(12345)},
++						Memory: &runtimespec.LinuxMemory{Limit: newI64(12345)},
+ 					},
+ 				},
+ 			},
+@@ -165,13 +166,13 @@ func TestUpdateOCILinuxResource(t *testi
+ 				Linux: &runtimespec.Linux{
+ 					Resources: &runtimespec.LinuxResources{
+ 						Memory: &runtimespec.LinuxMemory{
+-							Limit: proto.Int64(54321),
++							Limit: newI64(54321),
+ 							Swap:  expectedSwap(54321),
+ 						},
+ 						CPU: &runtimespec.LinuxCPU{
+-							Shares: proto.Uint64(4444),
+-							Quota:  proto.Int64(5555),
+-							Period: proto.Uint64(6666),
++							Shares: newU64(4444),
++							Quota:  newI64(5555),
++							Period: newU64(6666),
+ 							Cpus:   "4-5",
+ 							Mems:   "6-7",
+ 						},
+@@ -185,11 +186,11 @@ func TestUpdateOCILinuxResource(t *testi
+ 				Process: &runtimespec.Process{OOMScoreAdj: oomscoreadj},
+ 				Linux: &runtimespec.Linux{
+ 					Resources: &runtimespec.LinuxResources{
+-						Memory: &runtimespec.LinuxMemory{Limit: proto.Int64(12345)},
++						Memory: &runtimespec.LinuxMemory{Limit: newI64(12345)},
+ 						CPU: &runtimespec.LinuxCPU{
+-							Shares: proto.Uint64(1111),
+-							Quota:  proto.Int64(2222),
+-							Period: proto.Uint64(3333),
++							Shares: newU64(1111),
++							Quota:  newI64(2222),
++							Period: newU64(3333),
+ 							Cpus:   "0-1",
+ 							Mems:   "2-3",
+ 						},
+@@ -214,13 +215,13 @@ func TestUpdateOCILinuxResource(t *testi
+ 				Linux: &runtimespec.Linux{
+ 					Resources: &runtimespec.LinuxResources{
+ 						Memory: &runtimespec.LinuxMemory{
+-							Limit: proto.Int64(54321),
++							Limit: newI64(54321),
+ 							Swap:  expectedSwap(54321),
+ 						},
+ 						CPU: &runtimespec.LinuxCPU{
+-							Shares: proto.Uint64(4444),
+-							Quota:  proto.Int64(5555),
+-							Period: proto.Uint64(6666),
++							Shares: newU64(4444),
++							Quota:  newI64(5555),
++							Period: newU64(6666),
+ 							Cpus:   "4-5",
+ 							Mems:   "6-7",
+ 						},

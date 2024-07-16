@@ -1,0 +1,39 @@
+From: Shengjing Zhu <zhsj@debian.org>
+Date: Sun, 27 Feb 2022 23:16:03 +0800
+Subject: cri: fix integration test on cgroupsv2 system
+
+Forwarded: https://github.com/containerd/containerd/pull/6595
+---
+ integration/container_update_resources_test.go | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
+
+Index: containerd/integration/container_update_resources_test.go
+===================================================================
+--- containerd.orig/integration/container_update_resources_test.go
++++ containerd/integration/container_update_resources_test.go
+@@ -270,11 +270,8 @@ func TestUpdateContainerResources_Memory
+ 	require.NoError(t, err)
+ 
+ 	t.Log("Check memory limit in cgroup")
+-	cgroup, err := cgroups.Load(cgroups.V1, cgroups.PidPath(int(task.Pid())))
+-	require.NoError(t, err)
+-	stat, err := cgroup.Stat(cgroups.IgnoreNotExist)
+-	require.NoError(t, err)
+-	assert.Equal(t, uint64(400*1024*1024), stat.Memory.Usage.Limit)
++	memLimit := getCgroupMemoryLimitForTask(t, task)
++	assert.Equal(t, uint64(400*1024*1024), memLimit)
+ 	swapLimit := getCgroupSwapLimitForTask(t, task)
+ 	assert.Equal(t, uint64(400*1024*1024), swapLimit)
+ 
+@@ -291,9 +288,8 @@ func TestUpdateContainerResources_Memory
+ 	checkMemorySwapLimit(t, spec, expectedSwapLimit(800*1024*1024))
+ 
+ 	t.Log("Check memory limit in cgroup")
+-	stat, err = cgroup.Stat(cgroups.IgnoreNotExist)
+-	require.NoError(t, err)
+-	assert.Equal(t, uint64(800*1024*1024), stat.Memory.Usage.Limit)
++	memLimit = getCgroupMemoryLimitForTask(t, task)
++	assert.Equal(t, uint64(800*1024*1024), memLimit)
+ 	swapLimit = getCgroupSwapLimitForTask(t, task)
+ 	assert.Equal(t, uint64(800*1024*1024), swapLimit)
+ }
