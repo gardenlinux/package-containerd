@@ -1,0 +1,4 @@
+--- a/debian/rules
++++ b/debian/rules
+@@ -23,0 +24 @@
++export DH_GOLANG_INSTALL_EXTRA := vendor/google.golang.org/protobuf/internal/editiondefaults/editions_defaults.binpb
