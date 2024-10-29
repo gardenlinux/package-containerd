@@ -1,4 +1,4 @@
-git_src --branch v1.7.20 https://github.com/containerd/containerd
+git_src --branch v1.7.23 https://github.com/containerd/containerd
 
 # debian specific things
 crd=$(mktemp -d)      
@@ -14,5 +14,5 @@ rm -rf "$crd"
 cp -r patches/0002-disable-runhcs-option-in-cri-config.patch "$dir/src/debian/patches/"
 apply_patches
 
-version="1.7.20-0"
-message="Update to 1.7.20-0"
+version="1.7.23-0"
+message="Update to 1.7.23-0"
