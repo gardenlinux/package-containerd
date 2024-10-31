@@ -1,18 +1,5 @@
-git_src --branch v1.7.20 https://github.com/containerd/containerd
+apt_src containerd
 
-# debian specific things
-crd=$(mktemp -d)      
-git clone https://salsa.debian.org/go-team/packages/containerd.git $crd
-pushd $crd
-#git checkout debian/experimental
-git checkout a4a87ccfed2c0031b448c78cc815104ff8871968 
-cp -r debian "$dir/src/"
-popd
-rm -rf "$crd"
-
-# refresh patch
-cp -r patches/0002-disable-runhcs-option-in-cri-config.patch "$dir/src/debian/patches/"
-apply_patches
-
-version="1.7.20-0"
-message="Update to 1.7.20-0"
+# patch 
+cp -r patches/remove-limitnofile.patch "$dir/src/debian/patches/"
+echo remove-limitnofile.patch >> "$dir/src/debian/patches/series"
