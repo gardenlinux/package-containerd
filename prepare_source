@@ -1,2 +1,6 @@
-apt_src containerd
-version_suffix=gardenlinux1~bp1443
+pkg=containerd
+version_orig=1.6.36
+version="$version_orig-1"
+git_src --branch "v$version_orig" https://salsa.debian.org/go-team/packages/containerd.git
+apply_patches
+version_suffix=gl0~bp1443
