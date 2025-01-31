@@ -7,4 +7,4 @@ echo remove-limitnofile.patch >> "$dir/src/debian/patches/series"
 rm "$dir/src/debian/patches/0006-Add-Debian-specific-CNI-bin-dir-to-ctr-run-command.patch"
 sed -i '/0006-Add-Debian-specific-CNI-bin-dir-to-ctr-run-command.patch/d' "$dir/src/debian/patches/series"
 
-version_suffix=gl1
+version_suffix=gl2
