@@ -1,4 +1,4 @@
-git_src --branch v2.0.2 https://github.com/containerd/containerd
+git_src --branch v2.0.4 https://github.com/containerd/containerd
 
 # debian specific things
 crd=$(mktemp -d)      
@@ -16,5 +16,5 @@ cp -r patches/*.patch "$dir/src/debian/patches/"
 cp patches/series_debian "$dir/src/debian/patches/series"
 
 apply_patches
-version="2.0.2-0"
-message="Update to 2.0.2-0"
+version="2.0.4-0"
+message="Update to 2.0.4-0"
