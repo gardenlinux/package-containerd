@@ -3,4 +3,8 @@ apt_src containerd
 # patch 
 cp -r patches/remove-limitnofile.patch "$dir/src/debian/patches/"
 echo remove-limitnofile.patch >> "$dir/src/debian/patches/series"
-version_suffix=gl1~bp1592
+
+cp -r patches/cve-2024-40635.patch "$dir/src/debian/patches/"
+echo cve-2024-40635.patch >> "$dir/src/debian/patches/series"
+
+version_suffix=gl2~bp1592
