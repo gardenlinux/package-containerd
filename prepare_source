@@ -12,9 +12,8 @@ rm -rf "$crd"
 
 # refresh patch
 rm -f "$dir/src/debian/patches"/*
-cp -r patches/*.patch "$dir/src/debian/patches/"
-cp patches/series_debian "$dir/src/debian/patches/series"
-
+import_upstream_patches upstream_patches
 apply_patches
+
 version="2.0.4-0"
 message="Update to 2.0.4-0"
