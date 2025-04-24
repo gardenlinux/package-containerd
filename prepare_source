@@ -1,8 +1,19 @@
-apt_src containerd
+git_src --branch v2.0.5 https://github.com/containerd/containerd
 
-# patch 
-cp -r patches/remove-limitnofile.patch "$dir/src/debian/patches/"
-echo remove-limitnofile.patch >> "$dir/src/debian/patches/series"
+# debian specific things
+crd=$(mktemp -d)      
+git clone https://salsa.debian.org/go-team/packages/containerd.git $crd
+pushd $crd
+#git checkout debian/1.7.24_ds1-4
+git checkout 16a31cb27f8cf93757bd8e19fd90be3b667b237d
+cp -r debian "$dir/src/"
+popd
+rm -rf "$crd"
 
-rm "$dir/src/debian/patches/0006-Add-Debian-specific-CNI-bin-dir-to-ctr-run-command.patch"
-sed -i '/0006-Add-Debian-specific-CNI-bin-dir-to-ctr-run-command.patch/d' "$dir/src/debian/patches/series"
+# refresh patch
+rm -f "$dir/src/debian/patches"/*
+import_upstream_patches upstream_patches
+apply_patches
+
+version="2.0.5-0"
+message="Update to 2.0.5-0"

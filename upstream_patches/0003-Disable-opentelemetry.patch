@@ -1,0 +1,52 @@
+From: Shengjing Zhu <zhsj@debian.org>
+Date: Mon, 21 Feb 2022 00:53:36 +0800
+Subject: Disable opentelemetry
+
+go.opentelemetry.io/contrib is not packaged.
+
+Forwarded: not-needed
+diff --git a/cmd/containerd/server/server.go b/cmd/containerd/server/server.go
+index 482276e7b..c7785c57a 100644
+--- a/cmd/containerd/server/server.go
++++ b/cmd/containerd/server/server.go
+@@ -40,7 +40,6 @@ import (
+ 	grpc_prometheus "github.com/grpc-ecosystem/go-grpc-middleware/providers/prometheus"
+ 	v1 "github.com/opencontainers/image-spec/specs-go/v1"
+ 	"github.com/prometheus/client_golang/prometheus"
+-	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
+ 	"google.golang.org/grpc"
+ 	"google.golang.org/grpc/backoff"
+ 	"google.golang.org/grpc/credentials"
+@@ -161,7 +160,6 @@ func New(ctx context.Context, config *srvconfig.Config) (*Server, error) {
+ 	prometheus.MustRegister(prometheusServerMetrics)
+ 
+ 	serverOpts := []grpc.ServerOption{
+-		grpc.StatsHandler(otelgrpc.NewServerHandler()),
+ 		grpc.ChainStreamInterceptor(
+ 			streamNamespaceInterceptor,
+ 			prometheusServerMetrics.StreamServerInterceptor(),
+diff --git a/pkg/tracing/tracing.go b/pkg/tracing/tracing.go
+index 48d760feb..809f6cae8 100644
+--- a/pkg/tracing/tracing.go
++++ b/pkg/tracing/tracing.go
+@@ -21,7 +21,6 @@ import (
+ 	"net/http"
+ 	"strings"
+ 
+-	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
+ 	"go.opentelemetry.io/otel"
+ 	"go.opentelemetry.io/otel/attribute"
+ 	"go.opentelemetry.io/otel/codes"
+@@ -46,12 +45,6 @@ func WithAttribute(k string, v interface{}) SpanOpt {
+ 
+ // UpdateHTTPClient updates the http client with the necessary otel transport
+ func UpdateHTTPClient(client *http.Client, name string) {
+-	client.Transport = otelhttp.NewTransport(
+-		client.Transport,
+-		otelhttp.WithSpanNameFormatter(func(operation string, r *http.Request) string {
+-			return name
+-		}),
+-	)
+ }
+ 
+ // StartSpan starts child span in a context.

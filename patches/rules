@@ -1,0 +1,12 @@
+diff --git a/debian/rules b/debian/rules
+index 6ed2d9483..c07502763 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -17,6 +17,7 @@ EXTRA_EXCLUDES += vendor
+ EXTRA_EXCLUDES += $(filter-out cmd/ctr,$(wildcard cmd/*))
+ 
+ export DH_GOLANG_EXCLUDES := $(EXCLUDES)
++export DH_GOLANG_INSTALL_EXTRA := vendor/google.golang.org/protobuf/internal/editiondefaults/editions_defaults.binpb
+ 
+ %:
+ 	dh $@ --buildsystem=golang --with=golang --builddirectory=_build
