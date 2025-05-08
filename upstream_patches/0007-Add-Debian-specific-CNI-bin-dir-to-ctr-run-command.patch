@@ -1,0 +1,14 @@
+Based on original 0006-Add-Debian-specific-CNI-bin-dir-to-ctr-run-command.patch
+diff --git a/internal/cri/config/config_unix.go b/internal/cri/config/config_unix.go
+index 7d6519015..16d2d5b4f 100644
+--- a/internal/cri/config/config_unix.go
++++ b/internal/cri/config/config_unix.go
+@@ -24,7 +24,7 @@ import (
+ )
+ 
+ func defaultNetworkPluginBinDirs() []string {
+-	return []string{"/opt/cni/bin"}
++	return []string{"/usr/lib/cni"}
+ }
+ 
+ func DefaultImageConfig() ImageConfig {
