@@ -1,4 +1,2 @@
 0001-disable-windows-support-in-ctr-metric.patch
 0003-Disable-opentelemetry.patch
-0006-Add-Debian-specific-CNI-bin-dir-to-ctr-run-command.patch
-0010-Avoid-dependency-on-component-base.patch
