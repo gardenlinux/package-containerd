@@ -17,3 +17,4 @@ apply_patches
 
 version="2.1.1-0"
 message="Update to 2.1.1-0"
+version_suffix=gl0
