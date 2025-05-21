@@ -1,4 +1,4 @@
-git_src --branch v2.1.0 https://github.com/containerd/containerd
+git_src --branch v2.1.1 https://github.com/containerd/containerd
 
 # debian specific things
 crd=$(mktemp -d)      
@@ -15,5 +15,5 @@ rm -f "$dir/src/debian/patches"/*
 import_upstream_patches upstream_patches
 apply_patches
 
-version="2.1.0-0"
-message="Update to 2.1.0-0"
+version="2.1.1-0"
+message="Update to 2.1.1-0"
