@@ -7,4 +7,4 @@ echo remove-limitnofile.patch >> "$dir/src/debian/patches/series"
 cp -r patches/cve-2024-40635.patch "$dir/src/debian/patches/"
 echo cve-2024-40635.patch >> "$dir/src/debian/patches/series"
 
-version_suffix=gl3~bp1592
+version_suffix=gl4~bp1592
