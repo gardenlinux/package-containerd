@@ -1,19 +1,20 @@
-git_src --branch v2.1.3 https://github.com/containerd/containerd
+debian_version="1.7.24_ds1-6"
+version_orig="2.1.3"
+version="${version_orig}-0"
 
-# debian specific things
-crd=$(mktemp -d)      
-git clone https://salsa.debian.org/go-team/packages/containerd.git $crd
-pushd $crd
-#git checkout debian/1.7.24_ds1-4
-git checkout 16a31cb27f8cf93757bd8e19fd90be3b667b237d
-cp -r debian "$dir/src/"
+version_suffix=gl1+bp1877
+
+DEBIAN_SRC=$(mktemp -d)
+git clone -b "debian/$debian_version" --depth=1 https://salsa.debian.org/go-team/packages/containerd.git $DEBIAN_SRC
+pushd $DEBIAN_SRC
+git sparse-checkout set debian
+rm -fR debian/patches
 popd
-rm -rf "$crd"
 
-# refresh patch
-rm -f "$dir/src/debian/patches"/*
+cp -rp "$DEBIAN_SRC/debian" "$dir/src/"
+rm -fR "$DEBIAN_SRC"
+
+git_src -b "v$version_orig" https://github.com/containerd/containerd
+
 import_upstream_patches upstream_patches
 apply_patches
-
-version="2.1.3-0"
-message="Update to 2.1.3-0"
