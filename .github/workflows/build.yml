@@ -13,3 +13,6 @@ jobs:
         gardenlinux/bp-package-golang-golang-x-net-dev 0.27.0-2gl2+bp1592
         gardenlinux/bp-package-golang-net 0.33.0-1gl1+bp1592
         gardenlinux/bp-package-golang-x-crypto 0.36.0-1+exp1gl2+bp1592
+        gardenlinux/bp-package-golang-golang-x-sys-dev 0.22.0-1gl1+bp1592
+        gardenlinux/bp-package-golang-golang-x-term-dev 0.22.0-1gl1+bp1592
+        gardenlinux/bp-package-golang-golang-x-text-dev 0.16.0-1gl1+bp1592
