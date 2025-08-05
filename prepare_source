@@ -1,10 +1,24 @@
-apt_src containerd
+git_src --branch v1.7.28 https://github.com/containerd/containerd
 
-# patch 
-cp -r patches/remove-limitnofile.patch "$dir/src/debian/patches/"
+# debian specific things
+crd=$(mktemp -d)      
+git clone https://salsa.debian.org/go-team/packages/containerd.git $crd
+pushd $crd
+#git checkout debian/1.7.24_ds1-6
+git checkout 7d9c32230c3fef2e3e12a8c689244d9799580e66
+cp -r debian "$dir/src/"
+popd
+rm -rf "$crd"
+
+# refresh patch
+rm -f "$dir/src/debian/patches"/*
+apply_patches
+
+cp -r upstream_patches/remove-limitnofile.patch "$dir/src/debian/patches/"
 echo remove-limitnofile.patch >> "$dir/src/debian/patches/series"
 
-cp -r patches/cve-2024-40635.patch "$dir/src/debian/patches/"
-echo cve-2024-40635.patch >> "$dir/src/debian/patches/series"
+version="1.7.28-0"
+message="Update to 1.7.28-0"
 
-version_suffix=gl4~bp1592
+
+version_suffix=gl0~bp1592

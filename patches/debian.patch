@@ -1,0 +1,919 @@
+diff --git a/debian/control b/debian/control
+index 9e0e4a3da..9f2fa3284 100644
+--- a/debian/control
++++ b/debian/control
+@@ -10,71 +10,7 @@ Build-Depends: debhelper-compat (= 13),
+                dh-golang,
+                go-md2man,
+                golang-any,
+-               golang-github-blang-semver-dev,
+-               golang-github-container-orchestrated-devices-container-device-interface-dev (>= 0.8.0~),
+-               golang-github-containerd-btrfs-dev (>= 2),
+-               golang-github-containerd-cgroups-dev (>= 3),
+-               golang-github-containerd-console-dev,
+-               golang-github-containerd-continuity-dev (>= 0.0~git20190827.75bee3e~),
+-               golang-github-containerd-errdefs-dev (>= 0.3.0),
+-               golang-github-containerd-fifo-dev (>= 1.0.0~),
+-               golang-github-containerd-go-cni-dev (>= 1.1.9),
+-               golang-github-containerd-go-runc-dev (>= 1.1.0),
+-               golang-github-containerd-imgcrypt-dev,
+-               golang-github-containerd-log-dev,
+-               golang-github-containerd-nri-dev,
+-               golang-github-containerd-platforms-dev,
+-               golang-github-containerd-ttrpc-dev (>= 1.2),
+-               golang-github-containerd-typeurl-dev (>= 2),
+-               golang-github-containernetworking-plugins-dev,
+-               golang-github-containers-ocicrypt-dev,
+-               golang-github-coreos-bbolt-dev,
+-               golang-github-coreos-go-systemd-dev,
+-               golang-github-davecgh-go-spew-dev,
+-               golang-github-distribution-reference-dev,
+-               golang-github-docker-go-events-dev,
+-               golang-github-docker-go-metrics-dev,
+-               golang-github-docker-go-units-dev,
+-               golang-github-docker-spdystream-dev,
+-               golang-github-emicklei-go-restful-dev,
+-               golang-github-fsnotify-fsnotify-dev,
+-               golang-github-google-go-cmp-dev,
+-               golang-github-google-uuid-dev,
+-               golang-github-grpc-ecosystem-go-grpc-prometheus-dev,
+-               golang-github-hashicorp-go-multierror-dev,
+-               golang-github-imdario-mergo-dev,
+-               golang-github-intel-goresctrl-dev,
+-               golang-github-klauspost-compress-dev,
+-               golang-github-minio-sha256-simd-dev,
+-               golang-github-moby-locker-dev,
+-               golang-github-moby-sys-dev (>= 0.0~git20240807),
+-               golang-github-opencontainers-go-digest-dev (>= 1.0.0~),
+-               golang-github-opencontainers-image-spec-dev (>= 1.1.0~rc2-2~),
+-               golang-github-opencontainers-runtime-spec-dev,
+-               golang-github-opencontainers-runtime-tools-dev,
+-               golang-github-opencontainers-selinux-dev,
+-               golang-github-pelletier-go-toml-dev,
+-               golang-github-prometheus-client-golang-dev,
+-               golang-github-sirupsen-logrus-dev,
+-               golang-github-spf13-pflag-dev,
+-               golang-github-tchap-go-patricia-dev,
+                golang-github-urfave-cli-dev (>= 1.22.2-4~),
+-               golang-github-vishvananda-netlink-dev,
+-               golang-go-zfs-dev,
+-               golang-golang-x-sync-dev,
+-               golang-golang-x-sys-dev,
+-               golang-google-grpc-dev (>= 1.30),
+-               golang-k8s-api-dev,
+-               golang-k8s-apimachinery-dev,
+-               golang-k8s-apiserver-dev,
+-               golang-k8s-client-go-dev,
+-               golang-k8s-klog-dev,
+-               golang-k8s-sigs-json-dev,
+-               golang-k8s-sigs-structured-merge-diff-dev,
+-               golang-k8s-sigs-yaml-dev,
+-               golang-k8s-utils-dev,
+-               golang-opentelemetry-otel-dev (>> 1.31),
+-               golang-tags.cncf-container-device-interface-dev
+ Standards-Version: 4.6.2
+ Rules-Requires-Root: no
+ Homepage: https://containerd.io/
+diff --git a/debian/rules b/debian/rules
+index 6ed2d9483..c07502763 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -17,6 +17,7 @@ EXTRA_EXCLUDES += vendor
+ EXTRA_EXCLUDES += $(filter-out cmd/ctr,$(wildcard cmd/*))
+ 
+ export DH_GOLANG_EXCLUDES := $(EXCLUDES)
++export DH_GOLANG_INSTALL_EXTRA := vendor/google.golang.org/protobuf/internal/editiondefaults/editions_defaults.binpb
+ 
+ %:
+ 	dh $@ --buildsystem=golang --with=golang --builddirectory=_build
+diff --git a/debian/copyright b/debian/copyright
+index 6348f3854..658fe78a0 100644
+--- a/debian/copyright
++++ b/debian/copyright
+@@ -1,86 +1,5 @@
+ Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+-Source: https://github.com/docker/containerd
+-# Excluded the whole vendor tree, except contaienrd/imgcrypt
+-Files-Excluded:
+- vendor/dario.cat
+- vendor/github.com/AdaLogics
+- vendor/github.com/AdamKorcz
+- vendor/github.com/Microsoft
+- vendor/github.com/beorn7
+- vendor/github.com/blang
+- vendor/github.com/cenkalti
+- vendor/github.com/cespare
+- vendor/github.com/cilium
+- vendor/github.com/containerd/aufs
+- vendor/github.com/containerd/btrfs
+- vendor/github.com/containerd/cgroups
+- vendor/github.com/containerd/console
+- vendor/github.com/containerd/containerd
+- vendor/github.com/containerd/continuity
+- vendor/github.com/containerd/errdefs
+- vendor/github.com/containerd/fifo
+- vendor/github.com/containerd/go-cni
+- vendor/github.com/containerd/go-runc
+- ~~vendor/github.com/containerd/imgcrypt
+- vendor/github.com/containerd/log
+- vendor/github.com/containerd/nri
+- vendor/github.com/containerd/platforms
+- vendor/github.com/containerd/ttrpc
+- vendor/github.com/containerd/typeurl
+- vendor/github.com/containerd/zfs
+- vendor/github.com/containernetworking
+- vendor/github.com/containers
+- vendor/github.com/coreos
+- vendor/github.com/cpuguy83
+- vendor/github.com/davecgh
+- vendor/github.com/distribution
+- vendor/github.com/docker
+- vendor/github.com/emicklei
+- vendor/github.com/felixge
+- vendor/github.com/fsnotify
+- vendor/github.com/go-jose
+- vendor/github.com/go-logr
+- vendor/github.com/godbus
+- vendor/github.com/gogo
+- vendor/github.com/golang
+- vendor/github.com/google
+- vendor/github.com/grpc-ecosystem
+- vendor/github.com/hashicorp
+- vendor/github.com/intel
+- vendor/github.com/json-iterator
+- vendor/github.com/klauspost
+- vendor/github.com/matttproud
+- vendor/github.com/miekg
+- vendor/github.com/minio
+- vendor/github.com/mistifyio
+- vendor/github.com/moby
+- vendor/github.com/modern-go
+- vendor/github.com/opencontainers
+- vendor/github.com/pelletier
+- vendor/github.com/pkg
+- vendor/github.com/pmezard
+- vendor/github.com/prometheus
+- vendor/github.com/russross
+- vendor/github.com/sirupsen
+- vendor/github.com/spf13
+- vendor/github.com/stefanberger
+- vendor/github.com/stretchr
+- vendor/github.com/syndtr
+- vendor/github.com/tchap
+- vendor/github.com/urfave
+- vendor/github.com/vishvananda
+- vendor/go.etcd.io
+- vendor/go.mozilla.org
+- vendor/go.opencensus.io
+- vendor/go.opentelemetry.io
+- vendor/golang.org
+- vendor/google.golang.org
+- vendor/gopkg.in
+- vendor/k8s.io
+- vendor/modules.txt
+- vendor/sigs.k8s.io
+- vendor/tags.cncf.io
+-
++Source: https://github.com/containerd/containerd
+ 
+ Files: *
+ Copyright: 2013-2016 Docker, Inc.
+@@ -103,11 +22,668 @@ Copyright: 2016 Tianon Gravi <tianon@debian.org>
+            2019 Shengjing Zhu <zhsj@debian.org>
+ License: Apache-2.0
+ 
+-Files: pkg/cri/server/bandwidth/*
+-       pkg/cri/streaming/*
+-       integration/remote/*
++Files: integration/remote/*
+        integration/cri-api/pkg/apis/*
+-Copyright: 2017 The Kubernetes Authors.
++Copyright: 2016 The Kubernetes Authors.
++License: Apache-2.0
++
++Files: vendor/dario.cat/mergo/*
++Copyright: Copyright (c) 2013 Dario Castañé. All rights reserved.
++           Copyright (c) 2012 The Go Authors. All rights reserved.
++License: BSD-3-Clause
++
++Files: vendor/github.com/AdaLogics/go-fuzz-headers/*
++Copyright: Copyright 2023 The go-fuzz-headers Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/AdamKorcz/go-118-fuzz-build/*
++Copyright:
++License: Apache-2.0
++
++Files: vendor/github.com/Microsoft/go-winio/*
++Copyright: Copyright (c) 2015 Microsoft
++License: MIT
++
++Files: vendor/github.com/Microsoft/hcsshim/*
++Copyright: Copyright (c) 2015 Microsoft
++License: MIT
++
++Files: vendor/github.com/Microsoft/hcsshim/pkg/go-runhcs/*
++Copyright: Copyright 2012-2015 Docker, Inc.
++License: Apache-2.0
++
++Files: vendor/github.com/beorn7/perks/*
++Copyright: Copyright (C) 2013 Blake Mizerany
++License: MIT
++
++Files: vendor/github.com/cenkalti/backoff/v4/*
++Copyright:Copyright (c) 2014 Cenk Altı
++License: MIT
++
++Files: vendor/github.com/cespare/xxhash/v2/*
++Copyright:Copyright (c) 2016 Caleb Spare
++License: MIT
++
++Files: vendor/github.com/checkpoint-restore/checkpointctl/*
++Copyright:
++License: Apache-2.0
++
++Files: vendor/github.com/checkpoint-restore/go-criu/v7/*
++Copyright:
++License: Apache-2.0
++
++Files: vendor/github.com/cilium/ebpf/*
++Copyright: Copyright (c) 2017 Nathan Sweet
++           Copyright (c) 2018, 2019 Cloudflare
++           Copyright (c) 2019 Authors of Cilium
++License: MIT
++
++Files: vendor/github.com/containerd/btrfs/v2/*
++Copyright: Copyright The containerd Authors
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/cgroups/v3/*
++Copyright: Copyright The containerd Authors
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/console/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/containerd/api/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/containerd/api/types/fieldpath.pb.go
++Copyright: Copyright (c) 2013, The GoGo Authors. All rights reserved.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/containerd/api/types/fieldpath.proto
++Copyright: Copyright (c) 2013, The GoGo Authors. All rights reserved.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/continuity/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/continuity/fs/magix_linux.go
++Copyright: Copyright The containerd Authors.
++           Copyright 2013-2018 Docker, Inc.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/errdefs/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/errdefs/pkg/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/fifo/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/go-cni/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/go-runc/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/imgcrypt/v2/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/log/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/nri/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/otelttrpc/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/otelttrpc/config.go
++Copyright: Copyright The OpenTelemetry Authors
++License: Apache-2.0
++
++
++Files: vendor/github.com/containerd/otelttrpc/config.go
++       vendor/github.com/containerd/otelttrpc/interceptor.go
++       vendor/github.com/containerd/otelttrpc/internal/parse.go
++       vendor/github.com/containerd/otelttrpc/metadata_supplier.go
++       vendor/github.com/containerd/otelttrpc/semconv.go
++       vendor/github.com/containerd/otelttrpc/version.go
++Copyright: Copyright The OpenTelemetry Authors
++           Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/platforms/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/plugin/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/ttrpc/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/typeurl/v2/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containerd/zfs/v2/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/containernetworking/cni/*
++Copyright: Copyright CNI authors
++License: Apache-2.0
++
++Files: vendor/github.com/containernetworking/plugins/*
++Copyright: Copyright 2015-2017 CNI authors
++License: Apache-2.0
++
++Files: vendor/github.com/containers/ocicrypt/*
++Copyright: Copyright The ocicrypt Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/coreos/go-systemd/v22/*
++Copyright: Copyright CoreOS, Inc.
++License: Apache-2.0
++
++Files: vendor/github.com/coreos/go-systemd/v22/daemon/sdnotify.go
++Copyright: Copyright CoreOS, Inc.
++           Copyright 2014 Docker, Inc.
++License: Apache-2.0
++
++Files: vendor/github.com/cpuguy83/go-md2man/v2/*
++Copyright: Copyright (c) 2014 Brian Goff
++License: MIT
++
++Files: vendor/github.com/davecgh/go-spew/*
++Copyright: Copyright (c) 2012-2016 Dave Collins <dave@davec.name>
++           Copyright (c) 2013-2016 Dave Collins <dave@davec.name>
++License: ISC
++
++Files: vendor/github.com/distribution/reference/*
++Copyright: Copyright The containerd Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/docker/go-events/*
++Copyright: Copyright 2016 Docker, Inc.
++License: Apache-2.0
++
++Files: vendor/github.com/docker/go-metrics/*
++Copyright: Copyright Docker, Inc.
++           Copyright 2015 Docker, Inc.
++License: Apache-2.0 and CC-BY-SA-4.0
++
++Files: vendor/github.com/docker/go-units/*
++Copyright: Copyright 2015 Docker, Inc.
++License: Apache-2.0
++
++Files: vendor/github.com/emicklei/go-restful/v3/*
++Copyright: Copyright (c) 2012,2013 Ernest Micklei
++           Copyright 2015 Ernest Micklei
++           Copyright 2018 Ernest Micklei
++           Copyright 2021 Ernest Micklei
++License: MIT
++
++Files: vendor/github.com/felixge/httpsnoop/*
++Copyright: Copyright (c) 2016 Felix Geisendörfer (felix@debuggable.com)
++License: MIT
++
++Files: vendor/github.com/fsnotify/fsnotify/*
++Copyright: Copyright © 2012 The Go Authors. All rights reserved.
++           Copyright © fsnotify Authors. All rights reserved.
++License: BSD-3-Clause
++
++Files: vendor/github.com/fxamacker/cbor/v2/*
++Copyright: Copyright (c) 2019-present Faye Amacker
++License: MIT
++
++Files: vendor/github.com/go-jose/go-jose/v4/*
++Copyright: Copyright 2014 Square Inc.
++License: Apache-2.0
++
++Files: vendor/github.com/go-jose/go-jose/v4/json/*
++Copyright: Copyright 2010 The Go Authors. All rights reserved.
++           Copyright 2011 The Go Authors. All rights reserved.
++           Copyright 2012 The Go Authors. All rights reserved.
++License: BSD-3-Clause
++
++Files: vendor/github.com/go-logr/logr/*
++Copyright: Copyright The logr Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/go-logr/stdr/*
++Copyright: Copyright The logr Authors
++License: Apache-2.0
++
++Files: vendor/github.com/godbus/dbus/v5/*
++Copyright: Copyright (c) 2013, Georg Reinke (<guelfey at gmail dot com>), Google
++License: BSD-2-Clause
++
++Files: vendor/github.com/gogo/protobuf/*
++Copyright: Copyright (c) 2013, The GoGo Authors. All rights reserved.
++           Copyright 2010 The Go Authors.  All rights reserved.
++License: BSD-3-Clause
++
++Files: vendor/github.com/golang/groupcache/*
++Copyright: Copyright 2013 Google Inc.
++License: Apache-2.0
++
++Files: vendor/github.com/golang/protobuf/*
++Copyright: Copyright 2010-2019 The Go Authors. All rights reserved.
++License: BSD-3-Clause
++
++Files: vendor/github.com/google/go-cmp/*
++Copyright: Copyright The Go Authors.
++License: BSD-3-Clause
++
++Files: vendor/github.com/google/gofuzz/*
++Copyright: Copyright 2014 Google Inc. All rights reserved.
++License: Apache-2.0
++
++Files: vendor/github.com/google/uuid/*
++Copyright: Copyright Google Inc. All rights reserved.
++License: BSD-3-Clause
++
++Files: vendor/github.com/gorilla/websocket/*
++Copyright: Copyright 2013 The Gorilla WebSocket Authors. All rights reserved.
++License: BSD-2-Clause
++
++Files: vendor/github.com/grpc-ecosystem/go-grpc-middleware/providers/prometheus/*
++Copyright: Copyright (c) The go-grpc-middleware Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/grpc-ecosystem/go-grpc-middleware/v2/*
++Copyright: Copyright (c) The go-grpc-middleware Authors.
++License: Apache-2.0
++
++Files: vendor/github.com/grpc-ecosystem/grpc-gateway/v2/*
++Copyright:Copyright (c) 2015, Gengo, Inc.
++          Copyright 2009 The Go Authors. All rights reserved.
++License: BSD-3-Clause
++
++Files: vendor/github.com/intel/goresctrl/*
++Copyright:Copyright 2019-2022 Intel Corporation
++License: Apache-2.0
++
++Files: vendor/github.com/json-iterator/go/*
++Copyright: Copyright (c) 2016 json-iterator
++License: MIT
++
++Files: vendor/github.com/klauspost/compress/*
++Copyright: Copyright (c) 2016 Caleb Spare
++           Copyright (c) 2012 The Go Authors. All rights reserved.
++           Copyright (c) 2015 Klaus Post
++           Copyright (c) 2011 The Snappy-Go Authors. All rights reserved.
++           Copyright 2016 The filepathx Authors
++           Copyright (c) 2013, Yann Collet, released under BSD License.
++License: Apache-2.0 or BSD-3-Clause or MIT
++
++Files: vendor/github.com/mdlayher/socket/*
++Copyright: Copyright (C) 2021 Matt Layher
++License: MIT
++
++Files: vendor/github.com/mdlayher/vsock/*
++Copyright: Copyright (C) 2017-2022 Matt Layher
++License: MIT
++
++Files: vendor/github.com/miekg/pkcs11/*
++Copyright: Copyright 2013 Miek Gieben. All rights reserved.
++           Copyright (c) OASIS Open 2016. All Rights Reserved.
++License: BSD-3-Clause
++
++Files: vendor/github.com/mistifyio/go-zfs/v3/*
++Copyright: Copyright (c) 2014, OmniTI Computer Consulting, Inc.
++License: Apache-2.0
++
++Files: vendor/github.com/moby/locker/*
++Copyright: Copyright 2013-2018 Docker, Inc.
++License: Apache-2.0
++
++Files: vendor/github.com/moby/spdystream/*
++Copyright: Copyright 2014-2021 Docker Inc.
++           Copyright 2011 The Go Authors. All rights reserved.
++License: Apache-2.0
++
++Files: vendor/github.com/moby/sys/*
++Copyright: Copyright (c) 2014-2018 The Docker & Go Authors. All rights reserved.
++License: Apache-2.0 or BSD-3-Clause
++
++Files: vendor/github.com/modern-go/concurrent/*
++Copyright: 2018 Modern Go Programming
++License: Apache-2.0
++
++Files: vendor/github.com/modern-go/reflect2/*
++Copyright: 2018 Modern Go Programming
++License: Apache-2.0
++
++Files: vendor/github.com/munnerz/goautoneg/*
++Copyright: Copyright (c) 2011, Open Knowledge Foundation Ltd.
++License: BSD-3-Clause
++
++Files: vendor/github.com/mxk/go-flowrate/*
++Copyright: Copyright (c) 2014 The Go-FlowRate Authors. All rights reserved.
++License: BSD-3-Clause
++
++Files: vendor/github.com/opencontainers/go-digest/*
++Copyright: Copyright OCI Contributors
++           Copyright Docker, Inc.
++License: Apache-2.0 or CC-BY-SA-4.0
++
++Files: vendor/github.com/opencontainers/image-spec/*
++Copyright: Copyright 2016 The Linux Foundation
++License: Apache-2.0
++
++Files: vendor/github.com/opencontainers/runtime-spec/*
++Copyright: Copyright 2015 The Linux Foundation.
++License: Apache-2.0
++
++Files: vendor/github.com/opencontainers/runtime-tools/*
++Copyright: Copyright 2015 The Linux Foundation.
++License: Apache-2.0
++
++Files: vendor/github.com/opencontainers/selinux/*
++Copyright: 2017 Open Container Initiative
++License: Apache-2.0
++
++Files: vendor/github.com/pelletier/go-toml/v2/*
++Copyright: Copyright (c) 2021 - 2023 Thomas Pelletier
++License: MIT
++
++Files: vendor/github.com/petermattis/goid/*
++Copyright: Copyright Peter Mattis and The Go Authors
++License: Apache-2.0
++
++Files: vendor/github.com/pkg/errors/*
++Copyright: Copyright (c) 2015, Dave Cheney <dave@cheney.net>
++License: BSD-2-Clause
++
++Files: vendor/github.com/pmezard/go-difflib/*
++Copyright: Copyright (c) 2013, Patrick Mezard
++License: BSD-3-Clause
++
++Files: vendor/github.com/prometheus/client_golang/*
++Copyright: Copyright (c) 2015 Björn Rabenstein
++           Copyright 2010 The Go Authors
++           Copyright 2013-2015 Blake Mizerany, Björn Rabenstein
++           Copyright 2012-2015 The Prometheus Authors
++License: Apache-2.0
++
++Files: vendor/github.com/prometheus/client_golang/internal/github.com/golang/gddo/*
++Copyright: Copyright 2013 The Go Authors. All rights reserved.
++License: BSD-3-Clause
++
++Files: vendor/github.com/prometheus/client_model/*
++Copyright: Copyright 2012-2015 The Prometheus Authors
++           Copyright 2013 Prometheus Team
++License: Apache-2.0
++
++Files: vendor/github.com/prometheus/common/*
++Copyright: Copyright 2015 The Prometheus Authors
++License: Apache-2.0
++
++Files: vendor/github.com/prometheus/procfs/*
++Copyright: Copyright 2020 The Prometheus Authors
++           Copyright 2017 Roger Luethi
++License: Apache-2.0
++
++Files: vendor/github.com/russross/blackfriday/v2/*
++Copyright: Copyright © 2011 Russ Ross
++License: BSD-2-Clause
++
++Files: vendor/github.com/sasha-s/go-deadlock/*
++Copyright: Sasha Sobol <sasha@scaledinference.com>
++License: Apache-2.0
++
++Files: vendor/github.com/sirupsen/logrus/*
++Copyright: Copyright (c) 2014 Simon Eskildsen
++License: MIT
++
++Files: vendor/github.com/smallstep/pkcs7/*
++Copyright: Copyright (c) 2015 Andrew Smith
++           Copyright 2023 The Go Authors. All rights reserved.
++License: MIT
++
++Files: vendor/github.com/stefanberger/go-pkcs11uri/*
++Copyright: 2020, Stefan Berger
++           Copyright IBM Corporation, 2020
++License: Apache-2.0
++
++Files: vendor/github.com/stretchr/testify/*
++Copyright: Copyright (c) 2012-2020 Mat Ryer, Tyler Bunnell and contributors.
++License: MIT
++
++Files: vendor/github.com/syndtr/gocapability/*
++Copyright: Copyright 2013 Suryandaru Triandana <syndtr@gmail.com>
++License: BSD-2-Clause
++
++Files: vendor/github.com/tchap/go-patricia/v2/*
++Copyright: Copyright (c) 2014 The go-patricia AUTHORS
++License: MIT
++
++Files: vendor/github.com/urfave/cli/v2/*
++Copyright: Copyright (c) 2022 urfave/cli maintainers
++           Copyright (c) 2009 The Go Authors. All rights reserved.
++License: MIT
++
++Files: vendor/github.com/vishvananda/netlink/*
++Copyright: Copyright 2014 Vishvananda Ishaya.
++           Copyright 2014 Docker, Inc.
++License: Apache-2.0
++
++Files: vendor/github.com/vishvananda/netns/*
++Copyright: Copyright 2014 Vishvananda Ishaya.
++           Copyright 2014 Docker, Inc.
++License: Apache-2.0
++
++Files: vendor/github.com/x448/float16/*
++Copyright: Copyright (c) 2019 Montgomery Edwards⁴⁴⁸ and Faye Amacker
++License: MIT
++
++Files: vendor/github.com/xrash/smetrics/*
++Copyright: Copyright (C) 2016 Felipe da Cunha Gonçalves
++License: MIT
++
++Files: vendor/go.etcd.io/bbolt/*
++Copyright: Copyright (c) 2013 Ben Johnson
++License: MIT
++
++Files: vendor/go.opencensus.io/*
++Copyright: Copyright 2017, OpenCensus Authors
++License: Apache-2.0
++
++Files: vendor/go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc/*
++Copyright: Copyright The OpenTelemetry Authors
++License: Apache-2.0
++
++Files: vendor/go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp/*
++Copyright: Copyright The OpenTelemetry Authors
++License: Apache-2.0
++
++Files: vendor/go.opentelemetry.io/otel/*
++Copyright: Copyright The OpenTelemetry Authors
++License: Apache-2.0
++
++Files: vendor/go.opentelemetry.io/otel/exporters/otlp/otlptrace/*
++Copyright: Copyright The OpenTelemetry Authors
++License: Apache-2.0
++
++Files: vendor/go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc/*
++Copyright: Copyright The OpenTelemetry Authors
++License: Apache-2.0
++
++Files: vendor/go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp/*
++Copyright: Copyright The OpenTelemetry Authors
++License: Apache-2.0
++
++Files: vendor/go.opentelemetry.io/otel/metric/*
++Copyright: Copyright The OpenTelemetry Authors
++License: Apache-2.0
++
++Files: vendor/go.opentelemetry.io/otel/sdk/*
++Copyright: Copyright The OpenTelemetry Authors
++License: Apache-2.0
++
++Files: vendor/go.opentelemetry.io/otel/trace/*
++Copyright: Copyright The OpenTelemetry Authors
++License: Apache-2.0
++
++Files: vendor/go.opentelemetry.io/proto/otlp/*
++Copyright: Copyright 2019, OpenTelemetry Authors
++License: Apache-2.0
++
++Files: vendor/golang.org/x/crypto/*
++Copyright: Copyright The Go Authors.
++License: BSD-3-Clause
++
++Files: vendor/golang.org/x/exp/*
++Copyright: Copyright The Go Authors.
++License: BSD-3-Clause
++
++Files: vendor/golang.org/x/mod/*
++Copyright: Copyright The Go Authors.
++License: BSD-3-Clause
++
++Files: vendor/golang.org/x/net/*
++Copyright: Copyright The Go Authors.
++License: BSD-3-Clause
++
++Files: vendor/golang.org/x/oauth2/*
++Copyright: Copyright The Go Authors.
++License: BSD-3-Clause
++
++Files: vendor/golang.org/x/sync/*
++Copyright: Copyright The Go Authors.
++License: BSD-3-Clause
++
++Files: vendor/golang.org/x/sys/*
++Copyright: Copyright The Go Authors.
++License: BSD-3-Clause
++
++Files: vendor/golang.org/x/term/*
++Copyright: Copyright The Go Authors.
++License: BSD-3-Clause
++
++Files: vendor/golang.org/x/text/*
++Copyright: Copyright The Go Authors.
++License: BSD-3-Clause
++
++Files: vendor/golang.org/x/time/*
++Copyright: Copyright The Go Authors.
++License: BSD-3-Clause
++
++Files: vendor/google.golang.org/genproto/googleapis/api/*
++Copyright: Copyright 2024 Google LLC
++License: Apache-2.0
++
++Files: vendor/google.golang.org/genproto/googleapis/rpc/*
++Copyright: Copyright 2024 Google LLC
++License: Apache-2.0
++
++Files: vendor/google.golang.org/grpc/*
++Copyright: Copyright gRPC authors.
++License: Apache-2.0
++
++Files: vendor/google.golang.org/protobuf/*
++Copyright: Copyright The Go Authors. All rights reserved.
++           Copyright Google Inc.
++License: BSD-3-Clause
++
++Files: vendor/gopkg.in/inf.v0/*
++Copyright: 2012 Péter Surányi Portions
++           2009 The Go Authors
++License: BSD-3-Clause
++
++Files: vendor/gopkg.in/yaml.v2/*
++Copyright: Copyright (c) 2006 Kirill Simonov
++           Copyright 2011-2016 Canonical Ltd.
++License: Apache-2.0 or Expat
++
++Files: vendor/gopkg.in/yaml.v3/*
++Copyright: Copyright (c) 2011-2019 Canonical Ltd
++           Copyright (c) 2006-2010 Kirill Simonov
++License: Apache-2.0 or Expat
++
++Files: vendor/k8s.io/api/*
++Copyright: Copyright The Kubernetes Authors.
++License: Apache-2.0
++
++Files: vendor/k8s.io/apimachinery/*
++Copyright: Copyright (c) 2009 The Go Authors. All rights reserved.
++           Copyright The Kubernetes Authors.
++License: Apache-2.0 or BSD-3-Clause
++
++Files: vendor/k8s.io/apiserver/*
++Copyright: Copyright 2021 The Kubernetes Authors.
++License: Apache-2.0
++
++Files: vendor/k8s.io/client-go/*
++Copyright: Copyright The Kubernetes Authors.
++License: Apache-2.0
++
++Files: vendor/k8s.io/component-base/*
++Copyright: Copyright 2018 The Kubernetes Authors.
++License: Apache-2.0
++
++Files: vendor/k8s.io/cri-api/*
++Copyright: Copyright 2020 The Kubernetes Authors.
++License: Apache-2.0
++
++Files: vendor/k8s.io/klog/v2/*
++Copyright: Copyright 2013 Google Inc. All Rights Reserved.
++           Copyright The Kubernetes Authors.
++License: Apache-2.0
++
++Files: vendor/k8s.io/kubelet/*
++Copyright: Copyright The Kubernetes Authors.
++License: Apache-2.0
++
++Files: vendor/k8s.io/utils/*
++Copyright: Copyright The Go Authors.
++           Copyright The Kubernetes Authors.
++License: Apache-2.0 or BSD-3-Clause
++
++Files: vendor/sigs.k8s.io/json/*
++Copyright: Copyright The Kubernetes Authors.
++           Copyright The Go Authors.
++License: Apache-2.0
++
++Files: vendor/sigs.k8s.io/structured-merge-diff/v4/*
++Copyright: Copyright The Kubernetes Authors.
++License: Apache-2.0
++
++Files: vendor/sigs.k8s.io/yaml/*
++Copyright:Copyright (c) 2014 Sam Ghods
++          Copyright (c) 2006-2010 Kirill Simonov
++          Copyright (c) 2006-2011 Kirill Simonov
++          Copyright 2013 The Go Authors. All rights reserved.
++          Copyright 2011-2016 Canonical Ltd.
++          Copyright 2021 The Kubernetes Authors.
++          Copyright 2011-2016 Canonical Ltd.
++License: MIT or BSD-3-Clause or Apache-2.0
++
++Files: vendor/tags.cncf.io/container-device-interface/*
++Copyright: Copyright © 2021 The CDI Authors
++License: Apache-2.0
++
++Files: vendor/tags.cncf.io/container-device-interface/internal/validation/k8s/objectmeta.go
++Copyright: Copyright © 2021 The CDI Authors
++           Copyright 2014 The Kubernetes Authors.
++License: Apache-2.0
++
++Files: vendor/tags.cncf.io/container-device-interface/specs-go/*
++Copyright: Copyright © 2021 The CDI Authors
+ License: Apache-2.0
+ 
+ License: Apache-2.0
+@@ -179,6 +755,65 @@ License: BSD-2-Clause
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
++License: BSD-3-Clause
++ Redistribution and use in source and binary forms, with or without
++ modification, are permitted provided that the following conditions are
++ met:
++ .
++     * Redistributions of source code must retain the above copyright
++ notice, this list of conditions and the following disclaimer.
++     * Redistributions in binary form must reproduce the above
++ copyright notice, this list of conditions and the following disclaimer
++ in the documentation and/or other materials provided with the
++ distribution.
++     * Neither the name of Google Inc. nor the names of its
++ contributors may be used to endorse or promote products derived from
++ this software without specific prior written permission.
++ .
++ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
++ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
++ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
++ A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
++ OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
++ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
++ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
++ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++
++License: MIT
++ Permission is hereby granted, free of charge, to any person obtaining a copy
++ of this software and associated documentation files (the "Software"), to deal
++ in the Software without restriction, including without limitation the rights
++ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ copies of the Software, and to permit persons to whom the Software is
++ furnished to do so, subject to the following conditions:
++ .
++ The above copyright notice and this permission notice shall be included in all
++ copies or substantial portions of the Software.
++ .
++ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ SOFTWARE.
++
++License: ISC
++ Permission to use, copy, modify, and/or distribute this software for any
++ purpose with or without fee is hereby granted, provided that the above
++ copyright notice and this permission notice appear in all copies.
++ .
++ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
++ WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
++ MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
++ ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
++ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
++ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
++ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++
+ License: CC-BY-SA-4.0
+  Attribution-ShareAlike 4.0 International
+  .
