@@ -1,8 +1,8 @@
 diff --git a/debian/control b/debian/control
-index 9e0e4a3da..f14fa33c2 100644
+index 9e0e4a3da..9f2fa3284 100644
 --- a/debian/control
 +++ b/debian/control
-@@ -10,71 +10,6 @@ Build-Depends: debhelper-compat (= 13),
+@@ -10,71 +10,7 @@ Build-Depends: debhelper-compat (= 13),
                 dh-golang,
                 go-md2man,
                 golang-any,
@@ -54,7 +54,7 @@ index 9e0e4a3da..f14fa33c2 100644
 -               golang-github-sirupsen-logrus-dev,
 -               golang-github-spf13-pflag-dev,
 -               golang-github-tchap-go-patricia-dev,
--               golang-github-urfave-cli-dev (>= 1.22.2-4~),
+                golang-github-urfave-cli-dev (>= 1.22.2-4~),
 -               golang-github-vishvananda-netlink-dev,
 -               golang-go-zfs-dev,
 -               golang-golang-x-sync-dev,
