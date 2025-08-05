@@ -14,6 +14,9 @@ rm -rf "$crd"
 rm -f "$dir/src/debian/patches"/*
 apply_patches
 
+cp -r upstream_patches/remove-limitnofile.patch "$dir/src/debian/patches/"
+echo remove-limitnofile.patch >> "$dir/src/debian/patches/series"
+
 version="1.7.28-0"
 message="Update to 1.7.28-0"
 
