@@ -71,6 +71,5 @@ index 9e0e4a3da..9f2fa3284 100644
 -               golang-k8s-utils-dev,
 -               golang-opentelemetry-otel-dev (>> 1.31),
 -               golang-tags.cncf-container-device-interface-dev
- Standards-Version: 4.6.2
- Rules-Requires-Root: no
+ Standards-Version: 4.7.2
  Homepage: https://containerd.io/
