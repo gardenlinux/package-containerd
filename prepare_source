@@ -4,8 +4,8 @@ git_src --branch v1.7.30 https://github.com/containerd/containerd
 crd=$(mktemp -d)      
 git clone https://salsa.debian.org/go-team/packages/containerd.git $crd
 pushd $crd
-#git checkout debian/1.7.24_ds1-6
-git checkout 44dd36e81027f86f4894819e42e3bc00fc02714e
+#git checkout debian/1.7.24_ds1-10
+git checkout 5e72d13e5ef9facd3f8398b4bbc29c188f285569
 cp -r debian "$dir/src/"
 popd
 rm -rf "$crd"

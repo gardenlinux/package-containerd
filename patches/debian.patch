@@ -1,8 +1,8 @@
 diff --git a/debian/control b/debian/control
-index 18a56565c..6fdd1dd08 100644
+index 18a56565c..0d1f34c7c 100644
 --- a/debian/control
 +++ b/debian/control
-@@ -9,72 +9,7 @@ Uploaders: Tianon Gravi <tianon@debian.org>,
+@@ -9,72 +9,8 @@ Uploaders: Tianon Gravi <tianon@debian.org>,
  Build-Depends: debhelper-compat (= 13),
                 dh-golang,
                 go-md2man,
@@ -55,6 +55,7 @@ index 18a56565c..6fdd1dd08 100644
 -               golang-github-sirupsen-logrus-dev,
 -               golang-github-spf13-pflag-dev,
 -               golang-github-tchap-go-patricia-dev,
++               golang-1.24-go,
                 golang-github-urfave-cli-dev (>= 1.22.2-4~),
 -               golang-github-vishvananda-netlink-dev,
 -               golang-go-zfs-dev,
