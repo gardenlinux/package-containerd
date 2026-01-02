@@ -1,11 +1,12 @@
 diff --git a/debian/control b/debian/control
-index 9e0e4a3da..9f2fa3284 100644
+index 18a56565c..6fdd1dd08 100644
 --- a/debian/control
 +++ b/debian/control
-@@ -10,71 +10,7 @@ Build-Depends: debhelper-compat (= 13),
+@@ -9,72 +9,7 @@ Uploaders: Tianon Gravi <tianon@debian.org>,
+ Build-Depends: debhelper-compat (= 13),
                 dh-golang,
                 go-md2man,
-                golang-any,
+-               golang-any,
 -               golang-github-blang-semver-dev,
 -               golang-github-container-orchestrated-devices-container-device-interface-dev (>= 0.8.0~),
 -               golang-github-containerd-btrfs-dev (>= 2),
@@ -75,7 +76,7 @@ index 9e0e4a3da..9f2fa3284 100644
  Homepage: https://containerd.io/
  Vcs-Git: https://salsa.debian.org/go-team/packages/containerd.git
 diff --git a/debian/rules b/debian/rules
-index 6ed2d9483..c07502763 100755
+index 6bc612c7a..d01d5dff5 100755
 --- a/debian/rules
 +++ b/debian/rules
 @@ -17,6 +17,7 @@ EXTRA_EXCLUDES += vendor
@@ -86,6 +87,16 @@ index 6ed2d9483..c07502763 100755
  
  %:
  	dh $@ --buildsystem=golang --with=golang --builddirectory=_build
+@@ -48,9 +49,4 @@ endif
+ override_dh_auto_install:
+ 	DH_GOLANG_EXCLUDES="$(EXCLUDES) $(EXTRA_EXCLUDES)" dh_auto_install
+ 
+-execute_after_dh_install-indep:
+-	# now move the gprc api definitions to its own package
+-	mkdir -pv debian/golang-github-containerd-containerd-api-dev/usr/share/gocode/src/github.com/containerd/containerd/
+-	mv -v debian/golang-github-containerd-containerd-dev/usr/share/gocode/src/github.com/containerd/containerd/api \
+-	          debian/golang-github-containerd-containerd-api-dev/usr/share/gocode/src/github.com/containerd/containerd/
+ 
 diff --git a/debian/copyright b/debian/copyright
 index 6348f3854..658fe78a0 100644
 --- a/debian/copyright
