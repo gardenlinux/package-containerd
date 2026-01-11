@@ -17,7 +17,7 @@ index 482276e7b..c7785c57a 100644
  	"google.golang.org/grpc"
  	"google.golang.org/grpc/backoff"
  	"google.golang.org/grpc/credentials"
-@@ -161,7 +160,6 @@ func New(ctx context.Context, config *srvconfig.Config) (*Server, error) {
+@@ -171,7 +170,6 @@ func New(ctx context.Context, config *srvconfig.Config) (*Server, error) {
  	prometheus.MustRegister(prometheusServerMetrics)
  
  	serverOpts := []grpc.ServerOption{
@@ -37,7 +37,7 @@ index 48d760feb..809f6cae8 100644
  	"go.opentelemetry.io/otel"
  	"go.opentelemetry.io/otel/attribute"
  	"go.opentelemetry.io/otel/codes"
-@@ -46,12 +45,6 @@ func WithAttribute(k string, v interface{}) SpanOpt {
+@@ -45,12 +44,6 @@ func WithAttribute(k string, v interface{}) SpanOpt {
  
  // UpdateHTTPClient updates the http client with the necessary otel transport
  func UpdateHTTPClient(client *http.Client, name string) {
