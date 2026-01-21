@@ -2,7 +2,7 @@ debian_version="1.7.24_ds1-10"
 version_orig="2.1.6"
 version="${version_orig}-0"
 
-version_suffix=gl0~bp1877
+version_suffix=gl1~bp1877
 
 DEBIAN_SRC=$(mktemp -d)
 git clone -b "debian/$debian_version" --depth=1 https://salsa.debian.org/go-team/packages/containerd.git $DEBIAN_SRC
@@ -16,5 +16,5 @@ rm -fR "$DEBIAN_SRC"
 
 git_src -b "v$version_orig" https://github.com/containerd/containerd
 
-import_upstream_patches upstream_patches
+import_upstream_patches
 apply_patches

@@ -1,0 +1,12 @@
+diff --git a/go.mod b/go.mod
+index 1e96a3d17..5ada24b82 100644
+--- a/go.mod
++++ b/go.mod
+@@ -1,6 +1,6 @@
+ module github.com/containerd/containerd/v2
+ 
+-go 1.24.2
++go 1.24.9
+ 
+ require (
+ 	dario.cat/mergo v1.0.1
