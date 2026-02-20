@@ -1,0 +1,31 @@
+commit 8bc803e7aa05329c03f27d17b07c548029c54170
+Author: Jérôme Poulin <jeromepoulin@gmail.com>
+Date:   Wed Nov 26 18:29:31 2025 -0500
+
+    core/mount/manager: fix bind mount missing rbind option
+    
+    The bind mount created for temporary activations was missing the
+    Options field, causing mount to fail with "no such device" because
+    the MS_BIND flag wasn't being set.
+    
+    Fixes #12549
+    
+    Signed-off-by: Jérôme Poulin <jeromepoulin@gmail.com>
+
+diff --git a/core/mount/manager/manager.go b/core/mount/manager/manager.go
+index d43c1beb8..5163c17db 100644
+--- a/core/mount/manager/manager.go
++++ b/core/mount/manager/manager.go
+@@ -430,9 +430,9 @@ func (mm *mountManager) Activate(ctx context.Context, name string, mounts []moun
+ 	// TODO: Add config for whether to add the bind mount?
+ 	if config.Temporary && firstSystemMount > 0 {
+ 		mounts = append(mounts, mount.Mount{
+-			Type:   "bind",
+-			Source: mounted[firstSystemMount-1].MountPoint,
+-			// TODO : Configurable bind mount options?
++			Type:    "bind",
++			Source:  mounted[firstSystemMount-1].MountPoint,
++			Options: []string{"rbind"},
+ 		})
+ 	}
+ 
