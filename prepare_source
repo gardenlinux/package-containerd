@@ -1,5 +1,5 @@
 debian_version="1.7.24_ds1-10"
-version_orig="2.1.7"
+version_orig="2.2.3"
 version="${version_orig}-0"
 
 version_suffix=gl0~bp1877
