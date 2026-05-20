@@ -1,0 +1,10 @@
+--- a/debian/rules
++++ b/debian/rules
+@@ -5,6 +5,7 @@
+ PKG        := github.com/containerd/containerd
+ GO_LDFLAGS += -X $(PKG)/version.Version=$(DEB_VERSION_UPSTREAM)
+ GO_LDFLAGS += -X $(PKG)/version.Revision=$(DEB_VERSION)
++GO_LDFLAGS += -extldflags "-Wl,-z,undefs"
+ 
+ EXCLUDES += cmd/protoc-gen-go-fieldpath cmd/containerd-stress
+ EXCLUDES += runtime/v2/example/cmd
