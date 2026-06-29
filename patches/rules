@@ -1,8 +1,20 @@
-diff --git a/debian/rules b/debian/rules
-index 6ed2d9483..c07502763 100755
 --- a/debian/rules
 +++ b/debian/rules
-@@ -17,6 +17,7 @@ EXTRA_EXCLUDES += vendor
+@@ -1,10 +1,13 @@
+ #!/usr/bin/make -f
+ 
++export PATH := /usr/lib/go-1.26/bin:$(PATH)
++
+ include /usr/share/dpkg/default.mk
+ 
+ PKG        := github.com/containerd/containerd
+ GO_LDFLAGS += -X $(PKG)/version.Version=$(DEB_VERSION_UPSTREAM)
+ GO_LDFLAGS += -X $(PKG)/version.Revision=$(DEB_VERSION)
++GO_LDFLAGS += -extldflags "-Wl,-z,undefs"
+ 
+ EXCLUDES += cmd/protoc-gen-go-fieldpath cmd/containerd-stress
+ EXCLUDES += runtime/v2/example/cmd
+@@ -17,6 +20,7 @@
  EXTRA_EXCLUDES += $(filter-out cmd/ctr,$(wildcard cmd/*))
  
  export DH_GOLANG_EXCLUDES := $(EXCLUDES)
