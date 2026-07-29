@@ -3,8 +3,6 @@ Date: Wed, 16 Sep 2020 15:15:44 +0800
 Subject: disable windows support in ctr metric
 
 Forwarded: not-needed
-diff --git a/cmd/ctr/commands/tasks/metrics.go b/cmd/ctr/commands/tasks/metrics.go
-index 7b15d1f97..de7a3f861 100644
 --- a/cmd/ctr/commands/tasks/metrics.go
 +++ b/cmd/ctr/commands/tasks/metrics.go
 @@ -23,7 +23,6 @@ import (
@@ -94,8 +92,6 @@ index 7b15d1f97..de7a3f861 100644
 -		fmt.Fprintf(w, "vm.memory.dm_operation_in_progress\t%t\t\n", stats.Memory.VmMemory.DmOperationInProgress)
 -	}
 -}
-diff --git a/internal/cri/server/container_stats_list.go b/internal/cri/server/container_stats_list.go
-index eabcae7fe..0b0395d7e 100644
 --- a/internal/cri/server/container_stats_list.go
 +++ b/internal/cri/server/container_stats_list.go
 @@ -23,7 +23,6 @@ import (
@@ -117,7 +113,7 @@ index eabcae7fe..0b0395d7e 100644
  	case "linux":
  		return func(meta containerstore.Metadata, stats *types.Metric) (containerStats, error) {
  			return c.linuxContainerMetrics(meta, stats, snapshotter)
-@@ -301,62 +296,6 @@ func matchLabelSelector(selector, labels map[string]string) bool {
+@@ -297,65 +292,6 @@ func matchLabelSelector(selector, labels map[string]string) bool {
  	return true
  }
  
@@ -170,6 +166,9 @@ index eabcae7fe..0b0395d7e 100644
 -				Timestamp: (protobuf.FromTimestamp(wstats.Timestamp)).UnixNano(),
 -				WorkingSetBytes: &runtime.UInt64Value{
 -					Value: wstats.Memory.MemoryUsagePrivateWorkingSetBytes,
+-				},
+-				UsageBytes: &runtime.UInt64Value{
+-					Value: wstats.Memory.MemoryUsageCommitBytes,
 -				},
 -			}
 -		}
