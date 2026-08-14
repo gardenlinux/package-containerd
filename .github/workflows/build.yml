@@ -11,3 +11,4 @@ jobs:
       build_dep: |
         gardenlinux/package-golang 1.26.5-1gl0+bp2150
         gardenlinux/bp-package-golang-defaults 1.26gl0+bp2150
+      force-arm-build: true

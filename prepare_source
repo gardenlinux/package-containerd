@@ -1,5 +1,5 @@
 debian_version="1.7.24_ds1-6"
-version_orig="2.2.6"
+version_orig="2.3.4"
 version="${version_orig}-0"
 
 version_suffix="gl1~bp2150"
@@ -16,5 +16,4 @@ rm -fR "$DEBIAN_SRC"
 
 git_src -b "v$version_orig" https://github.com/containerd/containerd
 
-import_upstream_patches upstream_patches
 apply_patches
