@@ -94,7 +94,12 @@ Forwarded: not-needed
 -}
 --- a/internal/cri/server/container_stats_list.go
 +++ b/internal/cri/server/container_stats_list.go
-@@ -23,7 +23,6 @@ import (
+@@ -18,12 +18,10 @@ package server (
+ 
+ import (
+ 	"context"
+-	"errors"
+ 	"fmt"
  	"reflect"
  	"time"
  
