@@ -3,8 +3,8 @@ version_orig="2.3.6"
 version="${version_orig}-0"
 
 DEBIAN_SRC=$(mktemp -d)
-git clone -b "debian/$debian_version" --depth=1 https://salsa.debian.org/go-team/packages/containerd.git $DEBIAN_SRC
-pushd $DEBIAN_SRC
+git clone -b "debian/$debian_version" --depth=1 "https://salsa.debian.org/go-team/packages/containerd.git" "$DEBIAN_SRC"
+pushd "$DEBIAN_SRC"
 git sparse-checkout set debian
 rm -fR debian/patches
 popd
@@ -12,6 +12,8 @@ popd
 cp -rp "$DEBIAN_SRC/debian" "$dir/src/"
 rm -fR "$DEBIAN_SRC"
 
-git_src -b "v$version_orig" https://github.com/containerd/containerd
+git_src -b "v$version_orig" "https://github.com/containerd/containerd"
 
 apply_patches
+
+add_sbom "$dir/src" "" "containerd" ""
