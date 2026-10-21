@@ -15,3 +15,4 @@ rm -fR "$DEBIAN_SRC"
 git_src -b "v$version_orig" https://github.com/containerd/containerd
 
 apply_patches
+version_suffix=gl0
