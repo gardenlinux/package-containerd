@@ -18,4 +18,4 @@ git_src -b "v$version_orig" "https://github.com/containerd/containerd"
 import_upstream_patches
 apply_patches
 
-add_sbom "$dir/src" "" "google-guest-agent" "$version_orig"
+add_sbom "$dir/src" "" "containerd" "$version_orig"
